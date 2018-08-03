@@ -119,7 +119,7 @@ function handlePostback(sender_psid, received_postback) {
   // Set the response based on the postback payload
   switch (received_postback.title) {
     case 'Empezar':
-      sendGetStarted(senderID);
+      sendGetStarted(sender_psid);
       break;
 
     default:
