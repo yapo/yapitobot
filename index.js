@@ -188,5 +188,7 @@ function sendGetStarted(recipientId) {
 
 
 function searchProduct(id) {
+  
+  console.log('searchhhhhhh');
   callSendAPI(id, 'ingrese el nombre del producto');
 }
