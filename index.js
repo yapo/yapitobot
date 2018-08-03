@@ -120,6 +120,9 @@ function handlePostback(sender_psid, received_postback) {
   switch (received_postback.title) {
     case 'Empezar':
       sendGetStarted(sender_psid);
+    break;  
+    case 'Buscar un producto':
+      searchProduct(sender_psid);
       break;
 
     default:
@@ -181,4 +184,9 @@ function sendGetStarted(recipientId) {
   };
 
   callSendAPI(messageData);
+}
+
+
+function searchProduct(id) {
+  callSendAPI(id, 'ingrese el nombre del producto');
 }
