@@ -97,8 +97,10 @@ function handleMessage(sender_psid, received_message) {
   if (received_message.text) {
 
     // Create the payload for a basic text message
+    
+    
     response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
+      "text": `https://www.yapo.cl/region_metropolitana/todos_los_avisos?ca=15_s&l=0&q=${received_message.text}&w=1&cmn=`
     }
   }
 
