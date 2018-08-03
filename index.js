@@ -24,20 +24,29 @@ app.post('/webhook', (req, res) => {
 
       // Gets the message. entry.messaging is an array, but 
       // will only ever contain one message, so we get index 0
-      console.log('llega mensaje', entry.messaging);
-      let webhook_event = entry.messaging[0];
-      console.log(webhook_event);
-      // Get the sender PSID
-      let sender_psid = webhook_event.sender.id;
-      console.log('Sender PSID: ' + sender_psid);
 
-      // Check if the event is a message or postback and
-      // pass the event to the appropriate handler function
-      if (webhook_event.message) {
-        handleMessage(sender_psid, webhook_event.message);
-      } else if (webhook_event.postback) {
-        handlePostback(sender_psid, webhook_event.postback);
+      console.log('llega mensaje', entry);
+      if(entry.messaging !== undefined ) {
+        // console.log('llega mensaje', entry.messaging);
+        let webhook_event = entry.messaging[0];
+        // console.log(webhook_event);
+        // Get the sender PSID
+        let sender_psid = webhook_event.sender.id;
+        // console.log('Sender PSID: ' + sender_psid);
+
+        // Check if the event is a message or postback and
+        // pass the event to the appropriate handler function
+        if (webhook_event.message) {
+          console.log('mensaje normal');
+          handleMessage(sender_psid, webhook_event.message);
+          
+        } else if (webhook_event.postback) {
+          console.log('mensaje postback');
+          handlePostback(sender_psid, webhook_event.postback);
+          
+        }
       }
+      
     });
 
     // Returns a '200 OK' response to all requests
@@ -104,6 +113,7 @@ function handlePostback(sender_psid, received_postback) {
 
   // Get the payload for the postback
   let payload = received_postback.payload;
+  console.log('payload postback', payload);
 
   // Set the response based on the postback payload
   switch (payload) {
@@ -112,7 +122,7 @@ function handlePostback(sender_psid, received_postback) {
       break;
 
     default:
-      sendTextMessage(senderID, "Postback called");
+      // sendTextMessage(senderID, "Postback called");
   }
   // Send the message to acknowledge the postback
   callSendAPI(sender_psid, response);
