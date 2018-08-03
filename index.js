@@ -93,11 +93,28 @@ function handleMessage(sender_psid, received_message) {
   }
 
   // Sends the response message
-  callSendAPI(sender_psid, response);
+  // callSendAPI(sender_psid, response);
 }
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
+
+  let response;
+
+  // Get the payload for the postback
+  let payload = received_postback.payload;
+
+  // Set the response based on the postback payload
+  switch (payload) {
+    case 'get_started':
+      sendGetStarted(senderID);
+      break;
+
+    default:
+      sendTextMessage(senderID, "Postback called");
+  }
+  // Send the message to acknowledge the postback
+  callSendAPI(sender_psid, response);
 
 }
 
@@ -124,4 +141,32 @@ function callSendAPI(sender_psid, response) {
       console.error("Unable to send message:" + err);
     }
   });
+}
+
+function sendGetStarted(recipientId) {
+  var messageData = {
+    recipient: {
+      id: recipientId
+    },
+    message: {
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: "¿Qué necesitas hacer?",
+          buttons:[{
+            type: "postback",
+            title: "Buscar un producto",
+            payload: "search"
+          }, {
+            type: "postback",
+            title: "Publicar un aviso",
+            payload: "insert"
+          }]
+        }
+      }
+    }
+  };
+
+  callSendAPI(messageData);
 }
