@@ -117,8 +117,8 @@ function handlePostback(sender_psid, received_postback) {
   console.log('payload postback', payload);
 
   // Set the response based on the postback payload
-  switch (payload) {
-    case 'get_started':
+  switch (received_postback.title) {
+    case 'Empezar':
       sendGetStarted(senderID);
       break;
 
