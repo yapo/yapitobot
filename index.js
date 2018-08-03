@@ -103,8 +103,34 @@ function handleMessage(sender_psid, received_message) {
   }
 
   // Sends the response message
-  // callSendAPI(sender_psid, response);
+  callSendAPI2(sender_psid, response);
 }
+
+
+function callSendAPI2(sender_psid, response) {
+  // Construct the message body
+  let request_body = {
+    "recipient": {
+      "id": sender_psid
+    },
+    "message": response
+  }
+
+  // Send the HTTP request to the Messenger Platform
+  request({
+    "uri": "https://graph.facebook.com/v2.6/me/messages",
+    "qs": { "access_token": PAGE_ACCESS_TOKEN },
+    "method": "POST",
+    "json": request_body
+  }, (err, res, body) => {
+    if (!err) {
+      console.log('message sent!')
+    } else {
+      console.error("Unable to send message:" + err);
+    }
+  });
+}
+
 
 // Handles messaging_postbacks events
 function handlePostback(sender_psid, received_postback) {
@@ -190,5 +216,5 @@ function sendGetStarted(recipientId) {
 function searchProduct(id) {
   
   console.log('searchhhhhhh');
-  callSendAPI(id, 'ingrese el nombre del producto');
+  callSendAPI2(id, 'ingrese el nombre del producto');
 }
